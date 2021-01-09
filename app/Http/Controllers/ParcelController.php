@@ -152,7 +152,7 @@ class ParcelController extends Controller
                     $fail('Already confirmed');
                 }
                 if ($parcel->transaction->status != 'success') {
-                    $fail('please make payment first');
+                    $fail('Please make payment first');
                 }
             },]
         ]);
