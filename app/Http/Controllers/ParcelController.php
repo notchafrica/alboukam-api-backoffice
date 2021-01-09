@@ -137,6 +137,48 @@ class ParcelController extends Controller
         ]));
     }
 
+    public function pickUp(Request $request, Parcel $parcel)
+    {
+        $r = DeliverParcel::whereParcelId($parcel->id)->first();
+
+        if ($r->delivered_at) {
+            throw ValidationException::withMessages([
+                'parcel' => [trans('action unalloyed')],
+            ]);
+        }
+
+        $r->picked_at = now();
+
+        $r->save();
+
+        return response()->json($r->refresh());
+    }
+
+    public function markAsDelivered(Request $request, Parcel $parcel)
+    {
+        $r = DeliverParcel::whereParcelId($parcel->id)->first();
+
+        if ($r->delivered_at) {
+            throw ValidationException::withMessages([
+                'parcel' => [trans('action unalloyed')],
+            ]);
+        }
+
+        $r->delivered_at = now();
+
+        $r->save();
+
+        $user = auth()->user();
+
+        $user->credit += ($r->parcel->fee / 100 * 30);
+
+        $user->save();
+
+        return response()->json($r->refresh());
+    }
+
+
+
     /**
      * Update the specified resource in storage.
      *

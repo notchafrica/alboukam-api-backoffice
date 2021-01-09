@@ -17,7 +17,8 @@ class CreateDeliverParcelsTable extends Migration
             $table->id();
             $table->foreignId('deliver_id')->nullable()->constrained();
             $table->foreignId('parcel_id')->nullable()->constrained();
-            $table->enum('status', ['open', 'piked', 'delivered'])->default('open');
+            $table->dateTime('piked_at')->nullable();
+            $table->dateTime('delivered_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

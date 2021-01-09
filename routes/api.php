@@ -34,9 +34,11 @@ Route::group(['middleware' => ['auth:sanctum'], 'namespace' => 'Auth'], function
     Route::post('parcels', [ParcelController::class, 'store']);
     Route::post('parcels/{parcel:uid}/checkout', [ParcelController::class, 'checkout']);
     Route::put('parcels/{parcel:uid}/take', [ParcelController::class, 'take']);
+    Route::put('parcels/{parcel:uid}/pickup', [ParcelController::class, 'pickUp']);
+    Route::put('parcels/{parcel:uid}/delivered', [ParcelController::class, 'markAsDelivered']);
     Route::get('parcels', [ParcelController::class, 'index']);
     Route::get('parcels/all', [ParcelController::class, 'public'])->middleware('auth.deliver');
 
-    Route::put('user', [ProfileController::class, 'update']);
-    Route::put('user/password', [ProfileController::class, 'password']);
+    Route::post('user', [ProfileController::class, 'update']);
+    Route::post('user/password', [ProfileController::class, 'password']);
 });
