@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeliverParcel;
 use App\Models\Parcel;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ParcelController extends Controller
 {
@@ -19,6 +21,16 @@ class ParcelController extends Controller
 
 
         return response()->json(auth()->user()->parcels()->get());
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function public()
+    {
+        return response()->json(Parcel::whereStatus('confirmed')->paginate(20));
     }
 
     /**
@@ -110,17 +122,45 @@ class ParcelController extends Controller
      * @param  \App\Models\Parcel  $parcel
      * @return \Illuminate\Http\Response
      */
+    public function take(Request $request, Parcel $parcel)
+    {
+        $r = DeliverParcel::whereParcelId($parcel->id)->first();
+
+        if ($r) {
+            throw ValidationException::withMessages([
+                'parcel' => [trans('already taken')],
+            ]);
+        }
+
+        return response()->json(auth()->user()->parcels()->create([
+            'parcel_id' => $parcel->id
+        ]));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Parcel  $parcel
+     * @return \Illuminate\Http\Response
+     */
     public function checkout(Request $request, Parcel $parcel)
     {
         $request->validate([
             'reference' => ['required', 'exists:transactions,reference', function ($attribute, $value, $fail) use ($parcel) {
-
+                if ($parcel->status == 'confirmed') {
+                    $fail('Already confirmed');
+                }
                 if ($parcel->transaction->status != 'success') {
                     $fail('please make payment first');
                 }
             },]
         ]);
-        dd($parcel);
+
+        $parcel->status = 'confirmed';
+        $parcel->save();
+
+        return response()->json($parcel->refresh());
     }
 
     /**

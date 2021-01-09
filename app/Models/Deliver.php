@@ -67,4 +67,9 @@ class Deliver extends Authenticatable
             return self::uid();
         return $r;
     }
+
+    public function parcels()
+    {
+        return $this->hasMany(DeliverParcel::class);
+    }
 }

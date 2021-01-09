@@ -24,6 +24,7 @@ class CreateParcelsTable extends Migration
             $table->string('from')->nullable();
             $table->string('to')->nullable();
             $table->string('fee')->nullable();
+            $table->enum('status', ['open', 'confirmed', 'taken'])->default('open');
             $table->timestamps();
             $table->softDeletes();
         });
