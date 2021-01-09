@@ -13,7 +13,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    use SoftDeletes;
     use HasApiTokens;
     use Bannable;
 
@@ -53,5 +52,10 @@ class User extends Authenticatable
     public function shouldApplyBannedAtScope()
     {
         return true;
+    }
+
+    public function parcels()
+    {
+        return $this->hasMany(Parcel::class);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Deliver;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class DeliverController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,18 @@ class DeliverController extends Controller
      */
     public function index()
     {
-        return response()->json(Deliver::paginate());
+        //
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,10 +41,10 @@ class DeliverController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Deliver  $deliver
+     * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function show(Deliver $deliver)
+    public function show(Transaction $transaction)
     {
         //
     }
@@ -43,10 +52,10 @@ class DeliverController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Deliver  $deliver
+     * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function edit(Deliver $deliver)
+    public function edit(Transaction $transaction)
     {
         //
     }
@@ -55,10 +64,10 @@ class DeliverController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Deliver  $deliver
+     * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Deliver $deliver)
+    public function update(Request $request, Transaction $transaction)
     {
         //
     }
@@ -66,10 +75,10 @@ class DeliverController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Deliver  $deliver
+     * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Deliver $deliver)
+    public function destroy(Transaction $transaction)
     {
         //
     }

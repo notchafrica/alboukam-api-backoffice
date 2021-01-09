@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ParcelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,10 @@ Route::group(['middleware' => ['guest:sanctum'], 'namespace' => 'Auth'], functio
     Route::post('login/deliver', [LoginController::class, 'deliverLogin']);
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('register/deliver', [RegisterController::class, 'deliverRegister']);
+});
+
+Route::group(['middleware' => ['auth:sanctum'], 'namespace' => 'Auth'], function () {
+    Route::post('parcels', [ParcelController::class, 'store']);
+    Route::post('parcels/{parcel:uid}/checkout', [ParcelController::class, 'checkout']);
+    Route::get('parcels', [ParcelController::class, 'index']);
 });
