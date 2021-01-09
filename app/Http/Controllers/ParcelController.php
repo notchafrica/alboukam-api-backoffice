@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Parcel;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ParcelController extends Controller
 {
@@ -112,8 +113,13 @@ class ParcelController extends Controller
     public function checkout(Request $request, Parcel $parcel)
     {
         $request->validate([
-            'reference' => ['required', 'exists:transactions,reference']
-        ])
+            'reference' => ['required', 'exists:transactions,reference', function ($attribute, $value, $fail) use ($parcel) {
+
+                if ($parcel->transaction->status != 'success') {
+                    $fail('please make payment first');
+                }
+            },]
+        ]);
         dd($parcel);
     }
 
