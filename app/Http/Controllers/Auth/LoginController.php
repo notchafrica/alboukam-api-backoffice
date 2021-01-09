@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -31,6 +32,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('guest:deliver')->except('logout');
     }
 
     /**
@@ -92,5 +94,30 @@ class LoginController extends Controller
             'user' => $user,
             'token_type' => 'Bearer',
         ]);
+    }
+
+
+    /**
+     * Deliver login
+     */
+
+    public function deliverLogin(Request $request)
+    {
+        $this->validate($request, [
+            'uid'   => 'required',
+            'password' => 'required'
+        ]);
+
+        if (Auth::guard('deliver')->attempt(['uid' => $request->uid, 'password' => $request->password], $request->get('remember'))) {
+
+            $user = auth('deliver')->user();
+            return response()->json([
+                'token' => (string) $user->createToken('api')->plainTextToken,
+                'deliver' => $user,
+                'token_type' => 'Bearer',
+            ]);
+        }
+
+        $this->sendFailedLoginResponse($request);
     }
 }

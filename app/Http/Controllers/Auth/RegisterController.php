@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Deliver;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Rules\UnBanned;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -97,6 +99,26 @@ class RegisterController extends Controller
         return response()->json([
             'token' => (string) $user->createToken('api')->plainTextToken,
             'user' => $user,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    protected function deliverRegister(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $deliver = Deliver::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'uid' => Deliver::uid(),
+            'password' => Hash::make($request['password']),
+        ]);
+
+        Auth::guard('deliver')->attempt(['uid' => $deliver->uid, 'password' => $request->password], $request->get('remember'));
+
+        $user = auth('deliver')->user();
+        return response()->json([
+            'token' => (string) $user->createToken('api')->plainTextToken,
+            'deliver' => $user,
             'token_type' => 'Bearer',
         ]);
     }

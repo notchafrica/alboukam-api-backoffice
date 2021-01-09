@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Deliver;
+
 return [
 
     /*
@@ -46,6 +48,10 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'deliver' => [
+            'driver' => 'session',
+            'provider' => 'delivers',
+        ],
     ],
 
     /*
@@ -69,6 +75,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'delivers' => [
+            'driver' => 'eloquent',
+            'model' => Deliver::class,
         ],
 
         // 'users' => [
@@ -95,6 +105,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'delivers' => [
+            'provider' => 'delivers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

@@ -23,5 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // guest
 Route::group(['middleware' => ['guest:sanctum'], 'namespace' => 'Auth'], function () {
     Route::post('login', [LoginController::class, 'login']);
+    Route::post('login/deliver', [LoginController::class, 'deliverLogin']);
     Route::post('register', [RegisterController::class, 'register']);
+    Route::post('register/deliver', [RegisterController::class, 'deliverRegister']);
 });
