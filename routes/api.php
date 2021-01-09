@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ParcelController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'namespace' => 'Auth'], function
     Route::put('parcels/{parcel:uid}/take', [ParcelController::class, 'take']);
     Route::get('parcels', [ParcelController::class, 'index']);
     Route::get('parcels/all', [ParcelController::class, 'public'])->middleware('auth.deliver');
+
+    Route::put('user', [ProfileController::class, 'update']);
+    Route::put('user/password', [ProfileController::class, 'password']);
 });
