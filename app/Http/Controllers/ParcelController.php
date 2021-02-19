@@ -30,7 +30,7 @@ class ParcelController extends Controller
      */
     public function public()
     {
-        return response()->json(Parcel::whereStatus('confirmed')->paginate(20));
+        return response()->json(Parcel::whereStatus('confirmed')->whereTakenAt(null)->paginate(20));
     }
 
     /**
@@ -132,9 +132,18 @@ class ParcelController extends Controller
             ]);
         }
 
-        return response()->json(auth()->user()->parcels()->create([
+
+
+        $parcel = auth()->user()->parcels()->create([
             'parcel_id' => $parcel->id
-        ]));
+        ]);
+
+        $parcel = Parcel::find($parcel->parcel_id);
+
+        $parcel->taken_at = now();
+        $parcel->save();
+
+        return response()->json($parcel->refresh());
     }
 
     public function pickUp(Request $request, Parcel $parcel)

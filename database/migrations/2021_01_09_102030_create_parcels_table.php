@@ -20,11 +20,15 @@ class CreateParcelsTable extends Migration
             $table->string('uid')->unique();
             $table->string('weight')->nullable();
             $table->string('height')->nullable();
+            $table->string('length')->nullable();
+            $table->string('width')->nullable();
+            $table->enum('type', ['envelop', 'box', 'documents', 'pallet', 'mixed'])->nullable();
             $table->text('details')->nullable();
             $table->string('from')->nullable();
             $table->string('to')->nullable();
             $table->string('fee')->nullable();
-            $table->enum('status', ['open', 'confirmed', 'taken'])->default('open');
+            $table->timestamp('taken_at')->nullable();
+            $table->enum('status', ['open', 'confirmed', 'draft'])->default('open');
             $table->timestamps();
             $table->softDeletes();
         });
