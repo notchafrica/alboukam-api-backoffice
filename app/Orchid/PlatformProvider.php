@@ -43,7 +43,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.delivers'),
             ItemMenu::label('Restaurants')
                 ->icon('bi.gift-fill')
-                ->route('platform.systems.users'),
+                ->route('platform.systems.restaurants'),
             ItemMenu::label('Markets')
                 ->icon('bi.building')
                 ->route('platform.systems.users')

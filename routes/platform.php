@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Orchid\Screens\Deliver\DeliverEditScreen;
 use App\Orchid\Screens\Deliver\DeliverListScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\Restaurant\RestaurantEditScreen;
+use App\Orchid\Screens\Restaurant\RestaurantListScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
@@ -97,4 +99,41 @@ Route::screen('roles', RoleListScreen::class)
         return $trail
             ->parent('platform.systems.index')
             ->push(__('Roles'), route('platform.systems.roles'));
+    });
+
+
+// Platform > System > Delivers > Deliver
+Route::screen('restaurants', RestaurantListScreen::class)
+    ->name('platform.systems.restaurants')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.index')
+            ->push(__('Restaurants'), route('platform.systems.restaurants'));
+    });
+
+// Platform > System > Delivers
+Route::screen('restaurants/{restaurants}/edit', RestaurantEditScreen::class)
+    ->name('platform.systems.restaurants.edit')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.systems.restaurants')
+            ->push(__('Edit'), route('platform.systems.restaurants.edit', $user));
+    });
+
+// Platform > System > Delivers
+Route::screen('restaurants/{restaurants}/manage', RestaurantEditScreen::class)
+    ->name('platform.systems.restaurants.manage')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.systems.restaurants')
+            ->push(__('Manage'), route('platform.systems.restaurants.manage', $user));
+    });
+
+// Platform > System > Users > Create
+Route::screen('restaurants/create', RestaurantEditScreen::class)
+    ->name('platform.systems.restaurants.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.restaurants')
+            ->push(__('Create'), route('platform.systems.restaurants.create'));
     });
