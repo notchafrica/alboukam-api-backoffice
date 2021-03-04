@@ -5,9 +5,11 @@ namespace App\Orchid\Screens\Deliver;
 use App\Models\Deliver;
 use App\Orchid\Layouts\Deliver\DeliverEditLayout;
 use App\Orchid\Layouts\Deliver\DeliverListLayout;
+use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
 class DeliverListScreen extends Screen
 {
@@ -75,5 +77,16 @@ class DeliverListScreen extends Screen
         return [
             'deliver' => $deliver,
         ];
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function remove(Request $request)
+    {
+        Deliver::findOrFail($request->get('id'))
+            ->delete();
+
+        Toast::info(__('Deliver was removed'));
     }
 }
