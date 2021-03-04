@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Orchid\Screen\AsSource;
 
 class Deliver extends Authenticatable
 {
@@ -17,6 +18,7 @@ class Deliver extends Authenticatable
     use SoftDeletes;
     use HasApiTokens;
     use Bannable;
+    use AsSource;
 
     protected $guard = 'deliver';
 

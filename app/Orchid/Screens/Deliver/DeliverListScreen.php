@@ -2,7 +2,12 @@
 
 namespace App\Orchid\Screens\Deliver;
 
+use App\Models\Deliver;
+use App\Orchid\Layouts\Deliver\DeliverEditLayout;
+use App\Orchid\Layouts\Deliver\DeliverListLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
 
 class DeliverListScreen extends Screen
 {
@@ -11,14 +16,14 @@ class DeliverListScreen extends Screen
      *
      * @var string
      */
-    public $name = 'DeliverListScreen';
+    public $name = 'Deliver';
 
     /**
      * Display header description.
      *
      * @var string|null
      */
-    public $description = 'DeliverListScreen';
+    public $description = 'All registered delivers';
 
     /**
      * Query data.
@@ -27,7 +32,9 @@ class DeliverListScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+            'delivers' => Deliver::paginate()
+        ];
     }
 
     /**
@@ -37,7 +44,11 @@ class DeliverListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make(__('Add'))
+                ->icon('plus')
+                ->route('platform.systems.delivers.create'),
+        ];
     }
 
     /**
@@ -47,6 +58,22 @@ class DeliverListScreen extends Screen
      */
     public function layout(): array
     {
-        return [];
+        return [
+            DeliverListLayout::class,
+            Layout::modal('oneAsyncModal', DeliverEditLayout::class)
+                ->async('asyncGetDeliver'),
+        ];
+    }
+
+    /**
+     * @param Deliver $deliver
+     *
+     * @return array
+     */
+    public function asyncGetUser(Deliver $deliver): array
+    {
+        return [
+            'deliver' => $deliver,
+        ];
     }
 }

@@ -30,6 +30,9 @@ class PlatformProvider extends OrchidServiceProvider
             ItemMenu::label('Parcels')
                 ->icon('bi.archive-fill')
                 ->route('platform.systems.users'),
+            ItemMenu::label('Orders')
+                ->icon('bi.cart-fill')
+                ->route('platform.systems.users'),
             ItemMenu::label('Users')
                 ->icon('people')
                 ->route('platform.systems.users')
@@ -37,7 +40,7 @@ class PlatformProvider extends OrchidServiceProvider
 
             ItemMenu::label('Delivers')
                 ->icon('bi.person-lines-fill')
-                ->route('platform.systems.users'),
+                ->route('platform.systems.delivers'),
             ItemMenu::label('Restaurants')
                 ->icon('bi.gift-fill')
                 ->route('platform.systems.users'),

@@ -2,15 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
+use App\Orchid\Screens\Deliver\DeliverEditScreen;
+use App\Orchid\Screens\Deliver\DeliverListScreen;
 use App\Orchid\Screens\PlatformScreen;
-use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
@@ -69,22 +63,31 @@ Route::screen('users', UserListScreen::class)
             ->push(__('Users'), route('platform.systems.users'));
     });
 
-// Platform > System > Roles > Role
-Route::screen('roles/{roles}/edit', RoleEditScreen::class)
-    ->name('platform.systems.roles.edit')
-    ->breadcrumbs(function (Trail $trail, $role) {
-        return $trail
-            ->parent('platform.systems.roles')
-            ->push(__('Role'), route('platform.systems.roles.edit', $role));
-    });
-
-// Platform > System > Roles > Create
-Route::screen('roles/create', RoleEditScreen::class)
-    ->name('platform.systems.roles.create')
+// Platform > System > Delivers > Deliver
+Route::screen('delivers', DeliverListScreen::class)
+    ->name('platform.systems.delivers')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
-            ->parent('platform.systems.roles')
-            ->push(__('Create'), route('platform.systems.roles.create'));
+            ->parent('platform.systems.index')
+            ->push(__('Delivers'), route('platform.systems.delivers'));
+    });
+
+// Platform > System > Delivers
+Route::screen('delivers/{delivers}/edit', DeliverEditScreen::class)
+    ->name('platform.systems.delivers.edit')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.systems.delivers')
+            ->push(__('Edit'), route('platform.systems.delivers.edit', $user));
+    });
+
+// Platform > System > Users > Create
+Route::screen('delivers/create', DeliverEditScreen::class)
+    ->name('platform.systems.delivers.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.delivers')
+            ->push(__('Create'), route('platform.systems.delivers.create'));
     });
 
 // Platform > System > Roles
@@ -95,21 +98,3 @@ Route::screen('roles', RoleListScreen::class)
             ->parent('platform.systems.index')
             ->push(__('Roles'), route('platform.systems.roles'));
     });
-
-// Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push(__('Example screen'));
-    });
-
-Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-
-//Route::screen('idea', 'Idea::class','platform.screens.idea');
