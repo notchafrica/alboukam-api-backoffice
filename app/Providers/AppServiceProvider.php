@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use Illuminate\Support\ServiceProvider;
+use Orchid\Platform\Models\User;
+use Orchid\Support\Facades\Dashboard;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        //Dashboard::useModel(\Orchid\Platform\Models\User::class, Admin::class);
+        Dashboard::configure([
+            'models' => [
+                User::class => Admin::class,
+            ],
+        ]);
     }
 }

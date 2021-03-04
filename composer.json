@@ -32,6 +32,7 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
+        "orchid/platform": "^9.19",
         "propaganistas/laravel-phone": "^4.2"
     },
     "require-dev": {

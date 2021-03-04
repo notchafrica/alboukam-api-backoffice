@@ -6,7 +6,6 @@ use App\Models\DeliverParcel;
 use App\Models\Parcel;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class ParcelController extends Controller

@@ -2,37 +2,31 @@
 
 namespace App\Models;
 
-use Cog\Laravel\Ban\Traits\Bannable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
-    use HasApiTokens;
-    use Bannable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'permissions',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = [
         'password',
         'remember_token',
+        'permissions',
     ];
 
     /**
@@ -41,21 +35,32 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'permissions'          => 'array',
+        'email_verified_at'    => 'datetime',
     ];
 
     /**
-     * Determine if BannedAtScope should be applied by default.
+     * The attributes for which you can use filters in url.
      *
-     * @return bool
+     * @var array
      */
-    public function shouldApplyBannedAtScope()
-    {
-        return true;
-    }
+    protected $allowedFilters = [
+        'id',
+        'name',
+        'email',
+        'permissions',
+    ];
 
-    public function parcels()
-    {
-        return $this->hasMany(Parcel::class);
-    }
+    /**
+     * The attributes for which can use sort in url.
+     *
+     * @var array
+     */
+    protected $allowedSorts = [
+        'id',
+        'name',
+        'email',
+        'updated_at',
+        'created_at',
+    ];
 }
