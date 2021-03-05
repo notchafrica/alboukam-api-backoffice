@@ -7,6 +7,7 @@ use App\Orchid\Screens\Deliver\DeliverListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Restaurant\RestaurantEditScreen;
 use App\Orchid\Screens\Restaurant\RestaurantListScreen;
+use App\Orchid\Screens\Restaurant\RestaurantManageScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
@@ -121,7 +122,7 @@ Route::screen('restaurants/{restaurants}/edit', RestaurantEditScreen::class)
     });
 
 // Platform > System > Delivers
-Route::screen('restaurants/{restaurants}/manage', RestaurantEditScreen::class)
+Route::screen('restaurants/{restaurants}/manage', RestaurantManageScreen::class)
     ->name('platform.systems.restaurants.manage')
     ->breadcrumbs(function (Trail $trail, $user) {
         return $trail
