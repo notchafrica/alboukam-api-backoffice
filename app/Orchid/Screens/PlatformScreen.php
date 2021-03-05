@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens;
 
+use App\Models\Deliver;
+use App\Models\Order;
+use App\Models\Parcel;
+use App\Models\Restaurant;
+use App\Models\User;
+use App\Orchid\Layouts\DashboardChart;
+use App\Orchid\Layouts\DashboardMetric;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -22,7 +29,7 @@ class PlatformScreen extends Screen
      *
      * @var string
      */
-    public $description = 'Welcome to your Orchid application.';
+    public $description = 'Welcome to your dashboard.';
 
     /**
      * Query data.
@@ -31,7 +38,19 @@ class PlatformScreen extends Screen
      */
     public function query(): array
     {
-        return [];
+        return [
+            'metric' => [
+                ['keyValue' => User::whereId(!auth()->id())->count(),],
+                ['keyValue' => Deliver::get()->count(),],
+                ['keyValue' => Restaurant::get()->count(),],
+                ['keyValue' => Parcel::get()->count(),],
+                ['keyValue' => Order::get()->count(),],
+            ],
+            'charts' => [
+                Order::countByDays()->toChart('Orders'),
+                Parcel::countByDays()->toChart('Parcels'),
+            ]
+        ];
     }
 
     /**
@@ -43,16 +62,8 @@ class PlatformScreen extends Screen
     {
         return [
             Link::make('Website')
-                ->href('http://orchid.software')
+                ->href('http://facebook.com/notchpay')
                 ->icon('globe-alt'),
-
-            Link::make('Documentation')
-                ->href('https://orchid.software/en/docs')
-                ->icon('docs'),
-
-            Link::make('GitHub')
-                ->href('https://github.com/orchidsoftware/platform')
-                ->icon('social-github'),
         ];
     }
 
@@ -65,6 +76,8 @@ class PlatformScreen extends Screen
     {
         return [
             Layout::view('platform::partials.welcome'),
+            DashboardMetric::class,
+            DashboardChart::class
         ];
     }
 }

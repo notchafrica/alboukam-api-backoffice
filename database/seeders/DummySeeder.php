@@ -16,7 +16,9 @@ class DummySeeder extends Seeder
     public function run()
     {
         for ($i = 0; $i < 15; $i++) {
-            User::first()->orders()->create([]);
+            User::first()->orders()->create([
+                'uid' => Order::uid()
+            ]);
         }
     }
 }

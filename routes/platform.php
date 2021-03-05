@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\Deliver\DeliverEditScreen;
 use App\Orchid\Screens\Deliver\DeliverListScreen;
+use App\Orchid\Screens\Order\OrderListScreen;
 use App\Orchid\Screens\Parcel\ParcelListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Restaurant\RestaurantEditScreen;
@@ -28,7 +29,7 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 // Main
-Route::screen('/main', PlatformScreen::class)
+Route::screen('/dashboard', PlatformScreen::class)
     ->name('platform.main');
 
 // Platform > Profile
@@ -160,10 +161,18 @@ Route::screen('parcels/{parcels}/manage', RestaurantManageScreen::class)
 
 
 // Platform > System > Delivers > Deliver
-Route::screen('orders', ParcelListScreen::class)
+Route::screen('orders', OrderListScreen::class)
     ->name('platform.systems.orders')
     ->breadcrumbs(function (Trail $trail) {
         return $trail
             ->parent('platform.systems.index')
             ->push(__('Parcels'), route('platform.systems.orders'));
+    });
+
+Route::screen('orders/{orders}/manage', RestaurantManageScreen::class)
+    ->name('platform.systems.orders.manage')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.systems.orders')
+            ->push(__('Manage'), route('platform.systems.orders.manage', $user));
     });
