@@ -14,7 +14,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Restaurant::all());
     }
 
     /**
@@ -44,9 +44,9 @@ class RestaurantController extends Controller
      * @param  \App\Models\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function show(Restaurant $restaurant)
+    public function show($restaurant)
     {
-        //
+        return response()->json(Restaurant::findOrFail($restaurant));
     }
 
     /**
@@ -68,17 +68,6 @@ class RestaurantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Restaurant $restaurant)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Restaurant  $restaurant
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Restaurant $restaurant)
     {
         //
     }

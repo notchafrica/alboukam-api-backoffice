@@ -17,6 +17,9 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->string('uid')->unique();
+            $table->string('deliver_to')->nullable();
+            $table->string('fee')->nullable();
+            $table->timestamp('taken_at')->nullable();
             $table->enum('status', ['open', 'confirmed', 'draft'])->default('open');
             $table->timestamps();
         });

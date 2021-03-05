@@ -74,4 +74,9 @@ class Deliver extends Authenticatable
     {
         return $this->hasMany(DeliverParcel::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(DeliverOrder::class);
+    }
 }

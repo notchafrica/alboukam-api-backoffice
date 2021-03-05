@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ParcelController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +41,17 @@ Route::group(['middleware' => ['auth:sanctum'], 'namespace' => 'Auth'], function
     Route::get('parcels', [ParcelController::class, 'index']);
     Route::get('parcels/all', [ParcelController::class, 'public'])->middleware('auth.deliver');
 
+
+    Route::post('orders', [OrderController::class, 'store']);
+    Route::post('orders/{parcel:uid}/checkout', [OrderController::class, 'checkout']);
+    Route::put('orders/{parcel:uid}/take', [OrderController::class, 'take']);
+    Route::put('orders/{parcel:uid}/delivered', [OrderController::class, 'markAsDelivered']);
+    Route::get('orders', [OrderController::class, 'index']);
+    Route::get('orders/all', [OrderController::class, 'public'])->middleware('auth.deliver');
+
+
+    Route::get('restaurants', [RestaurantController::class, 'index']);
+    Route::get('restaurants/{slug}', [RestaurantController::class, 'show']);
     Route::post('user', [ProfileController::class, 'update']);
     Route::post('user/password', [ProfileController::class, 'password']);
 });
