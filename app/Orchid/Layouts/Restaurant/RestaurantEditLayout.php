@@ -40,6 +40,14 @@ class RestaurantEditLayout extends Rows
                 ->required()
                 ->title(__('City'))
                 ->placeholder(__('City')),
+            Select::make('restaurant.type')
+                ->options([
+                    'restaurant' => "Restaurant",
+                    'shop' => "Shop",
+                ])
+                ->required()
+                ->title(__('Type'))
+                ->placeholder(__('Type')),
             Input::make('restaurant.email')
                 ->type('email')
                 ->title(__('Email'))

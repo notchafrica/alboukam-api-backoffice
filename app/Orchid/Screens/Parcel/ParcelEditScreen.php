@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Orchid\Screens\Restaurant;
+namespace App\Orchid\Screens\Parcel;
 
-use App\Models\Restaurant;
-use App\Orchid\Layouts\Restaurant\RestaurantEditLayout;
+use App\Models\Parcel;
+use App\Orchid\Layouts\Parcel\ParcelEditLayout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Orchid\Screen\Actions\Button;
@@ -12,14 +12,14 @@ use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class RestaurantEditScreen extends Screen
+class ParcelEditScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Edit Restaurant / Shop';
+    public $name = 'Edit Parcel';
 
     /**
      * Display header description.
@@ -29,25 +29,25 @@ class RestaurantEditScreen extends Screen
     public $description = 'Details such as name, location';
 
     /**
-     * @var Restaurant
+     * @var Parcel
      */
-    private $restaurant;
+    private $parcels;
 
     /**
      * Query data.
      *
      * @return array
      */
-    public function query(Restaurant $restaurant): array
+    public function query(Parcel $parcels): array
     {
-        $this->restaurant = $restaurant;
+        $this->parcels = $parcels;
 
-        if (!$restaurant->exists) {
-            $this->name = 'Create Restaurant / Shop';
+        if (!$parcels->exists) {
+            $this->name = 'Create Parcel';
         }
 
         return [
-            'restaurant' => $restaurant
+            'parcels' => $parcels
         ];
     }
 
@@ -63,7 +63,7 @@ class RestaurantEditScreen extends Screen
                 ->icon('trash')
                 ->confirm(__('Once the item is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.'))
                 ->method('remove')
-                ->canSee($this->restaurant->exists),
+                ->canSee($this->parcels->exists),
 
             Button::make(__('Save'))
                 ->icon('check')
@@ -79,36 +79,36 @@ class RestaurantEditScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::block(RestaurantEditLayout::class)
+            Layout::block(ParcelEditLayout::class)
                 ->title(__('Profile Information'))
                 ->description(__('Update information and email address.'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())
                         ->icon('check')
-                        ->canSee($this->restaurant->exists)
+                        ->canSee($this->parcels->exists)
                         ->method('save')
                 ),
         ];
     }
 
     /**
-     * @param Restaurant    $restaurant
+     * @param Parcel    $parcels
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save(Restaurant $restaurant, Request $request)
+    public function save(Parcel $parcels, Request $request)
     {
 
-        $restaurantData = $request->get('restaurant');
-        $restaurant
-            ->fill($restaurantData)
+        $parcelsData = $request->get('parcels');
+        $parcels
+            ->fill($parcelsData)
             ->save();
 
 
-        Toast::info(__('Restaurant / Shop was saved.'));
+        Toast::info(__('Parcel was saved.'));
 
-        return redirect()->route('platform.systems.restaurants');
+        return redirect()->route('platform.systems.parcels');
     }
 }

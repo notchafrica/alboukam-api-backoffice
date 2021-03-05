@@ -18,14 +18,14 @@ class RestaurantListScreen extends Screen
      *
      * @var string
      */
-    public $name = 'Restaurant';
+    public $name = 'Restaurant / Shop';
 
     /**
      * Display header description.
      *
      * @var string|null
      */
-    public $description = 'All registered restaurants';
+    public $description = 'All registered restaurants / shops';
 
     /**
      * Query data.
@@ -35,7 +35,7 @@ class RestaurantListScreen extends Screen
     public function query(): array
     {
         return [
-            'restaurants' => Restaurant::whereType('restaurant')->paginate()
+            'restaurants' => Restaurant::paginate()
         ];
     }
 

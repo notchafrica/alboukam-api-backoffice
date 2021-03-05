@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\Deliver\DeliverEditScreen;
 use App\Orchid\Screens\Deliver\DeliverListScreen;
+use App\Orchid\Screens\Parcel\ParcelListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Restaurant\RestaurantEditScreen;
 use App\Orchid\Screens\Restaurant\RestaurantListScreen;
@@ -137,4 +138,32 @@ Route::screen('restaurants/create', RestaurantEditScreen::class)
         return $trail
             ->parent('platform.systems.restaurants')
             ->push(__('Create'), route('platform.systems.restaurants.create'));
+    });
+
+// Platform > System > Delivers > Deliver
+Route::screen('parcels', ParcelListScreen::class)
+    ->name('platform.systems.parcels')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.index')
+            ->push(__('Parcels'), route('platform.systems.parcels'));
+    });
+
+// Platform > System > Delivers
+Route::screen('parcels/{parcels}/manage', RestaurantManageScreen::class)
+    ->name('platform.systems.parcels.manage')
+    ->breadcrumbs(function (Trail $trail, $user) {
+        return $trail
+            ->parent('platform.systems.parcels')
+            ->push(__('Manage'), route('platform.systems.parcels.manage', $user));
+    });
+
+
+// Platform > System > Delivers > Deliver
+Route::screen('orders', ParcelListScreen::class)
+    ->name('platform.systems.orders')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.index')
+            ->push(__('Parcels'), route('platform.systems.orders'));
     });

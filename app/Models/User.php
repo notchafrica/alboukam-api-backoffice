@@ -63,4 +63,15 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+
+    public function parcels()
+    {
+        return $this->hasMany(Parcel::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

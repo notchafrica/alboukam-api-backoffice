@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Orchid\Layouts\Restaurant;
+namespace App\Orchid\Layouts\Parcel;
 
-use App\Models\Restaurant;
+use App\Models\Parcel;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class RestaurantListLayout extends Table
+class ParcelListLayout extends Table
 {
     /**
      * Data source.
@@ -19,7 +19,7 @@ class RestaurantListLayout extends Table
      *
      * @var string
      */
-    protected $target = 'restaurants';
+    protected $target = 'parcels';
 
     /**
      * Get the table cells to be displayed.
@@ -29,28 +29,26 @@ class RestaurantListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('name', 'Name'),
-            TD::make('city', 'City')->render(function (Restaurant  $restaurant) {
-                return $restaurant->city->name;
-            }),
+            TD::make('uid', 'ID'),
+            TD::make('title', 'Title'),
             TD::make('type', 'Type'),
-            TD::make('phone', 'Phone'),
-            TD::make('address', 'Address'),
-            TD::make('created_at', 'Created'),
+            TD::make('from', 'From'),
+            TD::make('to', 'To'),
+            TD::make('details', 'Details'),
+            TD::make('status', 'Status'),
+            TD::make('weight', 'Weight'),
+            TD::make('length', 'Length'),
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(function (Restaurant $deliver) {
+                ->render(function (Parcel $deliver) {
                     return DropDown::make()
                         ->icon('options-vertical')
                         ->list([
-
+                            /*
                             Link::make(__('Manage'))
-                                ->route('platform.systems.restaurants.manage', $deliver->id)
-                                ->icon('bi.kanban-fill'),
-                            Link::make(__('Edit'))
-                                ->route('platform.systems.restaurants.edit', $deliver->id)
-                                ->icon('pencil'),
+                                ->route('platform.systems.parcels.manage', $deliver->id)
+                                ->icon('bi.kanban-fill'), */
                             Button::make(__('Delete'))
                                 ->icon('trash')
                                 ->method('remove')
